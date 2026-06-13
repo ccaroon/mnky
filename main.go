@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/ccaroon/mnky/cmd"
 
 func main() {
-	fmt.Println("See no Evil; Hear no Evil; Speak no Evil;")
+	cmd.Execute()
 }
