@@ -1,0 +1,11 @@
+input: "=+(){},;"
+expected:
+  - "ASSIGN|="
+  - "PLUS|+"
+  - "LPAREN|("
+  - "RPAREN|)"
+  - "LBRACE|{"
+  - "RBRACE|}"
+  - "COMMA|,"
+  - "SEMICOLON|;"
+  - "EOF|"

@@ -17,6 +17,10 @@ func New(input string) *Lexer {
 	return &lex
 }
 
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+}
+
 func (lex *Lexer) readChar() {
 	if lex.readPosition >= len(lex.input) {
 		lex.ch = 0
@@ -28,17 +32,59 @@ func (lex *Lexer) readChar() {
 	lex.readPosition += 1
 }
 
+func (lex *Lexer) readIdentifier() string {
+	position := lex.position
+	for isLetter(lex.ch) {
+		lex.readChar()
+	}
+
+	return lex.input[position:lex.position]
+}
+
 func (lex *Lexer) NextToken() token.Token {
-	var tkn token.Token
+	var tType token.TokenType
+	var literal string
 
 	switch lex.ch {
-	// EOF
+	// Simple, single char tokens
+	case '=':
+		tType = token.ASSIGN
+		literal = string(lex.ch)
+	case ';':
+		tType = token.SEMICOLON
+		literal = string(lex.ch)
+	case '(':
+		tType = token.LPAREN
+		literal = string(lex.ch)
+	case ')':
+		tType = token.RPAREN
+		literal = string(lex.ch)
+	case ',':
+		tType = token.COMMA
+		literal = string(lex.ch)
+	case '+':
+		tType = token.PLUS
+		literal = string(lex.ch)
+	case '{':
+		tType = token.LBRACE
+		literal = string(lex.ch)
+	case '}':
+		tType = token.RBRACE
+		literal = string(lex.ch)
 	case 0:
-		tkn = token.NewToken(token.EOF, token.EOF)
-	// Simple, single char token
+		tType = token.EOF
+		literal = token.EOF
 	default:
-		tkn = token.NewToken(token.TokenType(lex.ch), string(lex.ch))
+		if isLetter(lex.ch) {
+			tType = token.IDENT
+			literal = lex.readIdentifier()
+		} else {
+			tType = token.ILLEGAL
+			literal = string(lex.ch)
+		}
 	}
+
+	tkn := token.NewToken(tType, literal)
 
 	lex.readChar()
 
