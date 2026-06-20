@@ -17,6 +17,10 @@ func New(input string) *Lexer {
 	return &lex
 }
 
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
+}
+
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
@@ -32,18 +36,39 @@ func (lex *Lexer) readChar() {
 	lex.readPosition += 1
 }
 
-func (lex *Lexer) readIdentifier() string {
-	position := lex.position
-	for isLetter(lex.ch) {
+func (lex *Lexer) unreadChar() {
+	if lex.readPosition > 0 {
+		lex.position -= 1
+		lex.ch = lex.input[lex.position]
+		lex.readPosition -= 1
+	}
+}
+
+// Reads a sequence of bytes from input, return as string
+func (lex *Lexer) readSequence(testFunc func(byte) bool) string {
+	startPos := lex.position
+	for testFunc(lex.ch) {
 		lex.readChar()
 	}
+	endPos := lex.position
 
-	return lex.input[position:lex.position]
+	// Unread last char
+	lex.unreadChar()
+
+	return lex.input[startPos:endPos]
+}
+
+func (lex *Lexer) skipWhitespace() {
+	for lex.ch == ' ' || lex.ch == '\t' || lex.ch == '\n' || lex.ch == '\r' {
+		lex.readChar()
+	}
 }
 
 func (lex *Lexer) NextToken() token.Token {
 	var tType token.TokenType
 	var literal string
+
+	lex.skipWhitespace()
 
 	switch lex.ch {
 	// Simple, single char tokens
@@ -73,11 +98,14 @@ func (lex *Lexer) NextToken() token.Token {
 		literal = string(lex.ch)
 	case 0:
 		tType = token.EOF
-		literal = token.EOF
+		literal = ""
 	default:
 		if isLetter(lex.ch) {
-			tType = token.IDENT
-			literal = lex.readIdentifier()
+			literal = lex.readSequence(isLetter)
+			tType = token.LookupIdent(literal)
+		} else if isDigit(lex.ch) {
+			literal = lex.readSequence(isDigit)
+			tType = token.INT
 		} else {
 			tType = token.ILLEGAL
 			literal = string(lex.ch)
