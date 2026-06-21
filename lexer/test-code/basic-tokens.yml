@@ -1,4 +1,4 @@
-input: "=+(){},;"
+input: "=+(){},;`"
 expected:
   - "ASSIGN|="
   - "PLUS|+"
@@ -8,4 +8,5 @@ expected:
   - "RBRACE|}"
   - "COMMA|,"
   - "SEMICOLON|;"
+  - "ILLEGAL|`"
   - "EOF|"

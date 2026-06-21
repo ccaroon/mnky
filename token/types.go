@@ -3,25 +3,43 @@ package token
 import "strings"
 
 const (
-	ILLEGAL   = "ILLEGAL"
-	EOF       = "EOF"
-	IDENT     = "IDENT"
-	INT       = "INT"
-	ASSIGN    = "ASSIGN"
-	PLUS      = "PLUS"
-	COMMA     = "COMMA"
-	SEMICOLON = "SEMICOLON"
-	LPAREN    = "LPAREN"
-	RPAREN    = "RPAREN"
-	LBRACE    = "LBRACE"
-	RBRACE    = "RBRACE"
-	FUNCTION  = "FUNCTION"
-	LET       = "LET"
+	ASSIGN       = "ASSIGN"
+	ASTERISK     = "ASTERISK"
+	BANG         = "BANG"
+	COMMA        = "COMMA"
+	ELSE         = "ELSE"
+	EOF          = "EOF"
+	EQ           = "EQ"
+	FALSE        = "FALSE"
+	FUNCTION     = "FUNCTION"
+	GREATER_THAN = "GREATER_THAN"
+	IDENT        = "IDENT"
+	IF           = "IF"
+	ILLEGAL      = "ILLEGAL"
+	INT          = "INT"
+	LBRACE       = "LBRACE"
+	LESS_THAN    = "LESS_THAN"
+	LET          = "LET"
+	LPAREN       = "LPAREN"
+	MINUS        = "MINUS"
+	NOT_EQ       = "NOT_EQ"
+	PLUS         = "PLUS"
+	RBRACE       = "RBRACE"
+	RETURN       = "RETURN"
+	RPAREN       = "RPAREN"
+	SEMICOLON    = "SEMICOLON"
+	SLASH        = "SLASH"
+	TRUE         = "TRUE"
 )
 
 var keywords map[string]TokenType = map[string]TokenType{
-	"fn":  FUNCTION,
-	"let": LET,
+	"else":   ELSE,
+	"false":  FALSE,
+	"fn":     FUNCTION,
+	"if":     IF,
+	"let":    LET,
+	"return": RETURN,
+	"true":   TRUE,
 }
 
 func LookupIdent(ident string) TokenType {
@@ -46,18 +64,31 @@ func GetTokenType(name string) TokenType {
 }
 
 var TokenByName map[string]TokenType = map[string]TokenType{
-	"ILLEGAL":   ILLEGAL,
-	"EOF":       EOF,
-	"IDENT":     IDENT,
-	"INT":       INT,
-	"ASSIGN":    ASSIGN,
-	"PLUS":      PLUS,
-	"COMMA":     COMMA,
-	"SEMICOLON": SEMICOLON,
-	"LPAREN":    LPAREN,
-	"RPAREN":    RPAREN,
-	"LBRACE":    LBRACE,
-	"RBRACE":    RBRACE,
-	"FUNCTION":  FUNCTION,
-	"LET":       LET,
+	"ASSIGN":       ASSIGN,
+	"ASTERISK":     ASTERISK,
+	"BANG":         BANG,
+	"COMMA":        COMMA,
+	"ELSE":         ELSE,
+	"EOF":          EOF,
+	"EQ":           EQ,
+	"FALSE":        FALSE,
+	"FUNCTION":     FUNCTION,
+	"GREATER_THAN": GREATER_THAN,
+	"IDENT":        IDENT,
+	"IF":           IF,
+	"ILLEGAL":      ILLEGAL,
+	"INT":          INT,
+	"LBRACE":       LBRACE,
+	"LESS_THAN":    LESS_THAN,
+	"LET":          LET,
+	"LPAREN":       LPAREN,
+	"MINUS":        MINUS,
+	"NOT_EQ":       NOT_EQ,
+	"PLUS":         PLUS,
+	"RBRACE":       RBRACE,
+	"RETURN":       RETURN,
+	"RPAREN":       RPAREN,
+	"SEMICOLON":    SEMICOLON,
+	"SLASH":        SLASH,
+	"TRUE":         TRUE,
 }

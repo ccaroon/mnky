@@ -1,0 +1,26 @@
+from invoke import Collection, task
+
+
+@task
+def test(ctx, verbose=False):
+    """Run Unit Tests"""
+
+    flags = []
+    if verbose:
+        flags.append("-v")
+
+    ctx.run(f"ginkgo {' '.join(flags)} ./... ")
+
+@task(
+    aliases=["cover"]
+)
+def coverage(ctx):
+    """Run Code Coverage"""
+
+    ctx.run("ginkgo -cover ./...")
+    ctx.run("go tool cover -html coverprofile.out -o coverage.html")
+
+ns = Collection(
+    test,
+    coverage
+)

@@ -44,6 +44,18 @@ func (lex *Lexer) unreadChar() {
 	}
 }
 
+func (lex *Lexer) peekChar() byte {
+	var nextChar byte
+
+	if lex.readPosition >= len(lex.input) {
+		nextChar = 0
+	} else {
+		nextChar = lex.input[lex.readPosition]
+	}
+
+	return nextChar
+}
+
 // Reads a sequence of bytes from input, return as string
 func (lex *Lexer) readSequence(testFunc func(byte) bool) string {
 	startPos := lex.position
@@ -72,9 +84,24 @@ func (lex *Lexer) NextToken() token.Token {
 
 	switch lex.ch {
 	// Simple, single char tokens
+	case '!':
+		if lex.peekChar() == '=' {
+			lex.readChar()
+			tType = token.NOT_EQ
+			literal = "!="
+		} else {
+			tType = token.BANG
+			literal = string(lex.ch)
+		}
 	case '=':
-		tType = token.ASSIGN
-		literal = string(lex.ch)
+		if lex.peekChar() == '=' {
+			lex.readChar()
+			tType = token.EQ
+			literal = "=="
+		} else {
+			tType = token.ASSIGN
+			literal = string(lex.ch)
+		}
 	case ';':
 		tType = token.SEMICOLON
 		literal = string(lex.ch)
@@ -95,6 +122,21 @@ func (lex *Lexer) NextToken() token.Token {
 		literal = string(lex.ch)
 	case '}':
 		tType = token.RBRACE
+		literal = string(lex.ch)
+	case '-':
+		tType = token.MINUS
+		literal = string(lex.ch)
+	case '/':
+		tType = token.SLASH
+		literal = string(lex.ch)
+	case '*':
+		tType = token.ASTERISK
+		literal = string(lex.ch)
+	case '<':
+		tType = token.LESS_THAN
+		literal = string(lex.ch)
+	case '>':
+		tType = token.GREATER_THAN
 		literal = string(lex.ch)
 	case 0:
 		tType = token.EOF

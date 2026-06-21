@@ -53,30 +53,32 @@ func readTestFile(filename string) testData {
 	return data
 }
 
+func runYAMLTest(tests testData) {
+	lex := lexer.New(tests.input)
+
+	for _, expected := range tests.expectedTokens {
+		token := lex.NextToken()
+
+		Expect(token.Type).To(Equal(expected.Type))
+		Expect(token.Literal).To(Equal(expected.Literal))
+	}
+}
+
 var _ = Describe("Lexer", func() {
 
 	It("can get the next token for basic-tokens.yml", func() {
 		tests := readTestFile("basic-tokens.yml")
-		lex := lexer.New(tests.input)
-
-		for _, expected := range tests.expectedTokens {
-			token := lex.NextToken()
-
-			Expect(token.Type).To(Equal(expected.Type))
-			Expect(token.Literal).To(Equal(expected.Literal))
-		}
+		runYAMLTest(tests)
 	})
 
 	It("can get the next token for simple-mnky1.yml", func() {
 		tests := readTestFile("simple-mnky1.yml")
-		lex := lexer.New(tests.input)
+		runYAMLTest(tests)
+	})
 
-		for _, expected := range tests.expectedTokens {
-			token := lex.NextToken()
-
-			Expect(token.Type).To(Equal(expected.Type))
-			Expect(token.Literal).To(Equal(expected.Literal))
-		}
+	It("can get the next token for simple-mnky2.yml", func() {
+		tests := readTestFile("simple-mnky2.yml")
+		runYAMLTest(tests)
 	})
 
 })

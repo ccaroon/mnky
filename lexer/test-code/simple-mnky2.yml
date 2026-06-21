@@ -1,0 +1,117 @@
+input: |
+  let five = 5;
+  let ten = 10;
+
+  let x = ten - five;
+  let y = ten / five;
+  let z = five * 42;
+
+  let is_gt = ten > five;
+  let is_lt = five < ten;
+
+  let secret = !true;
+
+  let same = five == five;
+  let diff = five != ten;
+
+  if (x < y) {
+    return true;
+  } else {
+    return false;
+  }
+
+expected:
+  - "LET|let"
+  - "IDENT|five"
+  - "ASSIGN|="
+  - "INT|5"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|ten"
+  - "ASSIGN|="
+  - "INT|10"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|x"
+  - "ASSIGN|="
+  - "IDENT|ten"
+  - "MINUS|-"
+  - "IDENT|five"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|y"
+  - "ASSIGN|="
+  - "IDENT|ten"
+  - "SLASH|/"
+  - "IDENT|five"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|z"
+  - "ASSIGN|="
+  - "IDENT|five"
+  - "ASTERISK|*"
+  - "INT|42"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|is_gt"
+  - "ASSIGN|="
+  - "IDENT|ten"
+  - "GREATER_THAN|>"
+  - "IDENT|five"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|is_lt"
+  - "ASSIGN|="
+  - "IDENT|five"
+  - "LESS_THAN|<"
+  - "IDENT|ten"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|secret"
+  - "ASSIGN|="
+  - "BANG|!"
+  - "TRUE|true"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|same"
+  - "ASSIGN|="
+  - "IDENT|five"
+  - "EQ|=="
+  - "IDENT|five"
+  - "SEMICOLON|;"
+
+  - "LET|let"
+  - "IDENT|diff"
+  - "ASSIGN|="
+  - "IDENT|five"
+  - "NOT_EQ|!="
+  - "IDENT|ten"
+  - "SEMICOLON|;"
+
+  - "IF|if"
+  - "LPAREN|("
+  - "IDENT|x"
+  - "LESS_THAN|<"
+  - "IDENT|y"
+  - "RPAREN|)"
+  - "LBRACE|{"
+  - "RETURN|return"
+  - "TRUE|true"
+  - "SEMICOLON|;"
+  - "RBRACE|}"
+  - "ELSE|else"
+  - "LBRACE|{"
+  - "RETURN|return"
+  - "FALSE|false"
+  - "SEMICOLON|;"
+  - "RBRACE|}"
+
+  - "EOF|"
