@@ -3,7 +3,9 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"os/user"
 
+	"github.com/ccaroon/mnky/repl"
 	"github.com/spf13/cobra"
 )
 
@@ -22,9 +24,20 @@ var rootCmd = &cobra.Command{
 	// 		}
 	// 	}
 	// },
-	// Run: func(cmd *cobra.Command, args []string) {
-	// 	fmt.Printf("Target [%s]\n", config.Config.Target)
-	// },
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			user, err := user.Current()
+			if err != nil {
+				panic(err)
+			}
+
+			fmt.Printf("Monkey v%s | Greetings %s\n", version, user.Username)
+			fmt.Printf("Ctrl-D to exit\n")
+			repl.Start(os.Stdin, os.Stdout)
+		} else {
+			fmt.Println("Interpreter NOT implemented yet!")
+		}
+	},
 }
 
 func init() {
